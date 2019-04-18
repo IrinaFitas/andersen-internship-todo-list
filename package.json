@@ -1,0 +1,27 @@
+{
+  "name": "ander-todolist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IrinaFitas/andersen-internship-todo-list.git"
+  },
+  "author": "Irina F.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IrinaFitas/andersen-internship-todo-list/issues"
+  },
+  "homepage": "https://github.com/IrinaFitas/andersen-internship-todo-list#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "webpack": "^4.30.0",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
