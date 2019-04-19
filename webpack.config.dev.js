@@ -9,10 +9,11 @@ let conf = {
 	entry: "./src/js/index.js",
 	output: {
 		path: path.resolve(__dirname, "./dist"),
-		filename: "main.js",
-		publicPath: "dist/"
+		filename: "./js/bundle.js"
 	},
 	devServer: {
+		contentBase: path.resolve(__dirname, "./"),
+		watchContentBase: true,
 		inline: true,
 		hot: true,
 		overlay: true
@@ -34,7 +35,10 @@ let conf = {
 		]
 	},
 	plugins: [
-		new HtmlWebpackPlugin(),
+		new HtmlWebpackPlugin({
+			template: './index.html',
+			filename: './index.html',
+		}),
 		new CleanWebpackPlugin()
 	]
 };

@@ -7,8 +7,7 @@ let conf = {
 	entry: "./src/js/index.js",
 	output: {
 		path: path.resolve(__dirname, "./dist"),
-		filename: "main.js",
-		publicPath: "dist/"
+		filename: "./js/bundle.js"
 	},
 	devServer: {
 		inline: true,
@@ -33,7 +32,10 @@ let conf = {
 	},
 	plugins: [
 		new ExtractTextPlugin("style.css"),
-		new HtmlWebpackPlugin(),
+		new HtmlWebpackPlugin({
+			template: './index.html',
+			filename: './index.html',
+		}),
 		new CleanWebpackPlugin()
 	]
 };
