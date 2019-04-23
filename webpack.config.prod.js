@@ -7,7 +7,7 @@ let conf = {
 	entry: "./src/js/index.js",
 	output: {
 		path: path.resolve(__dirname, "./dist"),
-		filename: "./js/bundle.js"
+		filename: "./js/bundle.[hash:8].js"
 	},
 	devServer: {
 		inline: true,
