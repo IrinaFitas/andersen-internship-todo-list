@@ -1,10 +1,6 @@
-// let merge = require('webpack-merge');
-// let baseConfig = require('./webpack.config.base.js');
-
 let path = require("path");
 let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-let CleanWebpackPlugin = require('clean-webpack-plugin');
 let conf = {
 	entry: "./src/js/index.js",
 	output: {
@@ -23,7 +19,7 @@ let conf = {
 			{
 				test: /\.js$/,
 				loader: "babel-loader",
-				//exclude: "/node_modules/"
+				exclude: path.join(__dirname, 'node_modules')
 			},
 			{
 				test: /\.css$/,
@@ -38,15 +34,14 @@ let conf = {
 		new HtmlWebpackPlugin({
 			template: './index.html',
 			filename: './index.html',
-		}),
-		new CleanWebpackPlugin()
+		})
 	]
 };
 
 module.exports = (env, options) => {
 	let production = options.mode === "produnction";
-
+	
 	conf.devtool = production ? "source-map" : "eval-sourcemap";
-
+	
 	return conf;
 };

@@ -9,29 +9,24 @@ let conf = {
 		path: path.resolve(__dirname, "./dist"),
 		filename: "./js/bundle.[hash:8].js"
 	},
-	devServer: {
-		inline: true,
-		hot: true,
-		overlay: true
-	},
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
 				loader: "babel-loader",
-				//exclude: "/node_modules/"
+				exclude: path.join(__dirname, 'node_modules')
 			},
 			{
 				test: /\.css$/,
-        		use: ExtractTextPlugin.extract({
-          				fallback: "style-loader",
-          				use: "css-loader"
-					})
+				use: ExtractTextPlugin.extract({
+					fallback: "style-loader",
+					use: "css-loader"
+				})
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin("style.css"),
+		new ExtractTextPlugin('styles.[hash:8].css'),
 		new HtmlWebpackPlugin({
 			template: './index.html',
 			filename: './index.html',
@@ -42,8 +37,8 @@ let conf = {
 
 module.exports = (env, options) => {
 	let production = options.mode === "produnction";
-
+	
 	conf.devtool = production ? "source-map" : "eval-sourcemap";
-
+	
 	return conf;
 };
