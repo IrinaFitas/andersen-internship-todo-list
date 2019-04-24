@@ -1,8 +1,5 @@
 import View from "./View.js";
 import Model from "./Model.js";
-
-
-
 export default class Controller {
     constructor (view, model) {
         this.view = view;

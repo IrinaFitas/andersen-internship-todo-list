@@ -1,8 +1,20 @@
 export default Class EventEmitter {
     constructor() {
-
+        this.events = {};
     }
-    on() {}
-    off() {}
-    emit() {}
+    on(eventName, callback) {                      //регистрируем событие
+        if (this.events[eventName]) {
+            this.events[eventName].push(callback);
+        } else {
+            this.events[eventName] = [callback];
+        }
+    }
+
+    trigger(eventName, ...rest) {
+        if (this.events[eventName]) {
+            this.events[eventName].forEach( cb => {
+                cb.apply(null, rest);
+            }); 
+        }
+    }
 }

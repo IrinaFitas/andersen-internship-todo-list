@@ -10,7 +10,3 @@ export default class Model {
         console.log("I`m Model");
     }
 }
-
-Model.prototype.show = function() {
-    console.log("I`m Model");
-}
