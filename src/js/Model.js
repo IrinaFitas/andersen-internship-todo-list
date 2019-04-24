@@ -1,7 +1,14 @@
 import Controller from "./Controller.js";
 
-export default function Model() {
-    this.listItems = [];
+export default class Model {
+
+    constructor() {
+        this.listItems = ["toDo 1", "to Do 2", "to Do 3"];
+    }
+
+    show() {
+        console.log("I`m Model");
+    }
 }
 
 Model.prototype.show = function() {

@@ -1,4 +1,10 @@
 import Controller from "./Controller.js";
-function View() {
-
+export default class View {
+    constructor() {
+        this.$list = document.querySelector(".list");
+    }
+    
+    render() {
+        this.$list.innerHTML = `<p>It is alive!</p>`;
+    }
 }

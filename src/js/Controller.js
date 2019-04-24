@@ -3,11 +3,13 @@ import Model from "./Model.js";
 
 
 
-export default function Controller(view, model) {
-    this.view = view;
-    this.model = model;
-}
-
-Controller.prototype.show = function() {
-    console.log("I`m Controller");
+export default class Controller {
+    constructor (view, model) {
+        this.view = view;
+        this.model = model;
+    }
+    
+    show() {
+        console.log("I`m Controller");
+    }
 }
