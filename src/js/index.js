@@ -11,4 +11,4 @@ model.show();
 const view = new View();
 view.render();
 //view.showEvent();
-view.log();
+// view.log();

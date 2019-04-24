@@ -7,7 +7,8 @@ export default class Controller {
 
         this.view.on("itemWasAdded", function(data) {
             this.model.listItems.push(data);
-        });
+            console.log(this.model);
+        }.bind(this));
     }
     
     show() {

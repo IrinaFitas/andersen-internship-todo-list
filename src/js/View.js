@@ -6,8 +6,12 @@ export default class View extends EventEmitter {
         this.$list = document.querySelector(".list");
         this.$input = document.querySelector(".input");
         this.$addBtn = document.querySelector(".add-btn");
+        this.addEvents();
     }
-    
+    getInputValue() {
+        return this.$input.value;
+    }
+
     render() {
         this.$list.innerHTML = `<p>It is alive!</p>`;
     }
@@ -15,20 +19,20 @@ export default class View extends EventEmitter {
     addItem() {
         super.trigger("itemWasAdded", this.$input.value);
     }
-    
-    log() {
-        super.on("some", function() {
-            console.log(12);
+
+    addEvents() {
+        this.$input.addEventListener("keypress", (e) => {
+            if ((this.$input.value.length === 0 || !this.$input.value.trim())) {
+                return;
+            }
+            if (e.key === "Enter") {
+                this.trigger("itemWasAdded", this.getInputValue());
+                this.$input.value = '';
+            }
         });
-        super.trigger("some");
+        this.$addBtn.addEventListener("click", (e) => {
+            this.trigger("itemWasAdded", this.getInputValue());
+            this.$input.value = "";
+        });
     }
-
-    // showEvent() {
-    //     let ee = new EventEmitter();
-    //     ee.on( "change", function() {
-    //         console.log("I am EventEmitter");
-    //     });
-
-    //     ee.trigger("change");
-    // }
 }
