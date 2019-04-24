@@ -3,12 +3,9 @@ import Model from "./Model.js";
 import View from "./View.js";
 import "./../css/style.css";
 
-
+const model = new Model();
+const view = new View();
 const controller = new Controller(view, model);
 controller.show();
-const model = new Model();
 model.show();
-const view = new View();
 view.render();
-//view.showEvent();
-// view.log();

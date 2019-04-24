@@ -9,6 +9,8 @@ export default class Controller {
             this.model.listItems.push(data);
             console.log(this.model);
         }.bind(this));
+
+        this.view.trigger("renderList", this.model.listItems);
     }
     
     show() {
