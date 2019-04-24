@@ -15,14 +15,17 @@ export default class View extends EventEmitter {
         return this.$input.value;
     }
 
-    render(list) {
+    render() {
         this.on("renderList", function(list) {
             list.map( elem => {
-                console.log(elem);
-                this.$list.innerHTML += `<li>elem</li>`;
+                //this.$list.innerHTML += `<li>${elem}</li>`;
+                let li = document.createElement("li");
+                li.textContent = elem;
+                this.$list.appendChild(li);
             });
         }.bind(this));
     }
+    
 
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
