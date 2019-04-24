@@ -10,10 +10,10 @@ export default class EventEmitter {
         }
     }
 
-    trigger(eventName, ...rest) {
+    trigger(eventName, data) {                 // дергаем его
         if (this.events[eventName]) {
-            this.events[eventName].forEach( cb => {
-                cb.apply(null, rest);
+            this.events[eventName].map( cb => {
+                cb(data);
             }); 
         }
     }
