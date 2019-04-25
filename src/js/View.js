@@ -19,13 +19,13 @@ export default class View extends EventEmitter {
     }
 
     render() {
-        this.on("renderList", function(list) {
+        this.on("renderList", (list) => {
             list.map( elem => {
                 const li = document.createElement("li");
                 li.textContent = elem;
                 this.$list.appendChild(li);
             });
-        }.bind(this));
+        });
     }
     
     renderItem() {
@@ -34,21 +34,29 @@ export default class View extends EventEmitter {
         this.$list.appendChild(li); 
     }
 
+    sendInput() {
+        this.emit("itemWasAdded", this.inputValue);
+        this.inputValue = "";
+    }
+
+    checkInput() {
+        if ((this.inputValue.length === 0 || !this.inputValue.trim())) {
+            return;
+        }
+    }
+
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
-            if ((this.inputValue.length === 0 || !this.inputValue.trim())) {
-                return;
-            }
+            this.checkInput();
             if (e.key === "Enter") {
-                this.emit("itemWasAdded", this.inputValue);
                 this.renderItem();
-                this.inputValue = "";
+                this.sendInput();
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
-            this.emit("itemWasAdded", this.inputValue);
-            this.renderItem();
-            this.inputValue = ""; 
+            this.checkInput();
+            this.renderItem(); 
+            this.sendInput();
         });
     }
 }

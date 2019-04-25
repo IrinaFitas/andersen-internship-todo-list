@@ -2,12 +2,18 @@ export default class Controller {
     constructor (view, model) {
         this.view = view;
         this.model = model;
+        this.addItem();
+        this.renderList();
+    }
 
-        this.view.on("itemWasAdded", function(data) {
+    addItem() {
+        this.view.on("itemWasAdded", (data) => {
             this.model.listItems.push(data);
             console.log(this.model.listItems);
-        }.bind(this));
+        });
+    }
 
+    renderList() {
         this.view.emit("renderList", this.model.listItems);
     }
 }
