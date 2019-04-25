@@ -26,6 +26,9 @@ export default class View extends EventEmitter {
         }.bind(this));
     }
     
+    // renderItem() {
+    //     let li = document.createElement("li"); 
+    // }
 
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
@@ -34,11 +37,17 @@ export default class View extends EventEmitter {
             }
             if (e.key === "Enter") {
                 this.trigger("itemWasAdded", this.getInputValue());
+                let li = document.createElement("li");
+                li.textContent = this.getInputValue();
+                this.$list.appendChild(li);
                 this.$input.value = "";
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
             this.trigger("itemWasAdded", this.getInputValue());
+            let li = document.createElement("li");
+            li.textContent = this.getInputValue();
+            this.$list.appendChild(li);
             this.$input.value = ""; 
         });
     }
