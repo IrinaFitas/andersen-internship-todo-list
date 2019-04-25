@@ -8,47 +8,47 @@ export default class View extends EventEmitter {
         this.$addBtn = document.querySelector(".add-btn");
         this.addEvents();
         this.render();
-        // console.log(this.events);
-        //this.events.on("renderList", this.render(list).bind(this));
     }
-    getInputValue() {
+
+    get inputValue() {
         return this.$input.value;
+    }
+        
+    set inputValue(value) {
+        this.$input.value = value;
     }
 
     render() {
         this.on("renderList", function(list) {
             list.map( elem => {
-                //this.$list.innerHTML += `<li>${elem}</li>`;
-                let li = document.createElement("li");
+                const li = document.createElement("li");
                 li.textContent = elem;
                 this.$list.appendChild(li);
             });
         }.bind(this));
     }
     
-    // renderItem() {
-    //     let li = document.createElement("li"); 
-    // }
+    renderItem() {
+        const li = document.createElement("li");
+        li.textContent = this.inputValue;
+        this.$list.appendChild(li); 
+    }
 
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
-            if ((this.$input.value.length === 0 || !this.$input.value.trim())) {
+            if ((this.inputValue.length === 0 || !this.inputValue.trim())) {
                 return;
             }
             if (e.key === "Enter") {
-                this.trigger("itemWasAdded", this.getInputValue());
-                let li = document.createElement("li");
-                li.textContent = this.getInputValue();
-                this.$list.appendChild(li);
-                this.$input.value = "";
+                this.trigger("itemWasAdded", this.inputValue);
+                this.renderItem();
+                this.inputValue = "";
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
-            this.trigger("itemWasAdded", this.getInputValue());
-            let li = document.createElement("li");
-            li.textContent = this.getInputValue();
-            this.$list.appendChild(li);
-            this.$input.value = ""; 
+            this.trigger("itemWasAdded", this.inputValue);
+            this.renderItem();
+            this.inputValue = ""; 
         });
     }
 }
