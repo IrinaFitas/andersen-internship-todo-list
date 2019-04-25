@@ -1,8 +1,10 @@
-//import Controller from "./Controller.js";
-
+import Item from "./Item.js";
 export default class Model {
-
     constructor() {
         this.listItems = ["to Do 1", "to Do 2", "to Do 3"];
     }
-}
+
+    addItem(item) {
+        this.listItems.push(item);
+    }
+ }
