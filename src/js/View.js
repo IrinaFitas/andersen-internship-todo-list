@@ -40,13 +40,13 @@ export default class View extends EventEmitter {
                 return;
             }
             if (e.key === "Enter") {
-                this.trigger("itemWasAdded", this.inputValue);
+                this.emit("itemWasAdded", this.inputValue);
                 this.renderItem();
                 this.inputValue = "";
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
-            this.trigger("itemWasAdded", this.inputValue);
+            this.emit("itemWasAdded", this.inputValue);
             this.renderItem();
             this.inputValue = ""; 
         });

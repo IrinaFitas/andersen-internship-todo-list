@@ -1,45 +1,24 @@
 export default class EventEmitter {
     constructor() {
-        this.events = {};
-    }
-    on(eventName, callback) {                      //регистрируем событие
-        if (this.events[eventName]) {
-            this.events[eventName].push(callback);
-        } else {
-            this.events[eventName] = [callback];
-        }
+        this.events = new Map();
     }
 
-    trigger(eventName, data) {                 // дергаем его
-        if (this.events[eventName]) {
-            this.events[eventName].forEach( cb => {
-                cb(data);
-            }); 
+    on(eventName, callback) {
+        if (!(this.events.has(eventName))) {
+            this.events.set(eventName, []);
         }
+        this.events.get(eventName).push(callback);
+    }
+
+    emit(eventName, payload) {
+        const invokedEvents = this.events.get(eventName);
+        if (invokedEvents.length > 0) {
+            invokedEvents.forEach((event) => {
+                event(payload);
+            });
+            return true;
+        }
+
+        return false;
     }
 }
-
-// let a = new EventEmitter();
-// console.log(a);
-
-
-// const EventEmitter = new Map([
-//     ["events", {}],
-//     ["on", function(eventName, callback) {                    
-//         if (this.events[eventName]) {
-//             this.events[eventName].push(callback);
-//         } else {
-//             this.events[eventName] = [callback];
-//         }
-//     }],
-//     ["trigger", function(eventName, data) {                 
-//         if (this.events[eventName]) {
-//             this.events[eventName].forEach( cb => {
-//                 cb(data);
-//             }); 
-//         }
-//     }]
-// ]);
-
-// console.log(EventEmitter);
-// export default EventEmitter;

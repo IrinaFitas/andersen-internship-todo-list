@@ -8,6 +8,6 @@ export default class Controller {
             console.log(this.model.listItems);
         }.bind(this));
 
-        this.view.trigger("renderList", this.model.listItems);
+        this.view.emit("renderList", this.model.listItems);
     }
 }
