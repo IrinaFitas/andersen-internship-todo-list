@@ -1,10 +1,14 @@
 import Item from "./Item.js";
 export default class Model {
     constructor() {
-        this.listItems = ["to Do 1", "to Do 2", "to Do 3"];
+        this.listItems = [];
     }
 
     addItem(item) {
+        item = new Item(item);
         this.listItems.push(item);
     }
+
+    deleteItem() {}
+    editItem() {}
  }

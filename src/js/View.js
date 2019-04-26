@@ -13,7 +13,11 @@ export default class View extends EventEmitter {
     get inputValue() {
         return this.$input.value;
     }
-        
+    
+    get inputValueLength() {
+        return this.$input.value.length;
+    }
+
     set inputValue(value) {
         this.$input.value = value;
     }
@@ -22,7 +26,7 @@ export default class View extends EventEmitter {
         this.on("renderList", (list) => {
             list.map( elem => {
                 const li = document.createElement("li");
-                li.textContent = elem;
+                li.textContent = elem.text;
                 this.$list.appendChild(li);
             });
         });
@@ -39,22 +43,24 @@ export default class View extends EventEmitter {
         this.inputValue = "";
     }
 
-    checkInput() {
-        if ((this.inputValue.length === 0 || !this.inputValue.trim())) {
-            return;
-        }
-    }
-
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
-            this.checkInput();
+
+            if (this.inputValueLength === 0 || !this.inputValue.trim()) {
+                return;
+            }
+
             if (e.key === "Enter") {
                 this.renderItem();
                 this.sendInput();
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
-            this.checkInput();
+
+            if (this.inputValueLength === 0 || !this.inputValue.trim()) {
+                return;
+            }
+            
             this.renderItem(); 
             this.sendInput();
         });

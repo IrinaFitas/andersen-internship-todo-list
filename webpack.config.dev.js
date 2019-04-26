@@ -28,17 +28,6 @@ let conf = {
 					"css-loader"
 				]
 			},
-			// {
-            //     test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-            //     use: [{
-            //         loader: 'file-loader',
-            //         options: {
-            //             name: '[name].[ext]',
-            //             outputPath: 'fonts/'
-            //         }
-            //     }]
-			// }
-			// { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
 			{
                 test: /\.(woff|ttf)$/,
                 use: [{
