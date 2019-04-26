@@ -14,9 +14,9 @@ export default class View extends EventEmitter {
         return this.$input.value;
     }
     
-    get inputValueLength() {
-        return this.$input.value.length;
-    }
+    get isEmptyValue() {
+        return this.inputValueLength === 0 || !this.inputValue.trim();
+     }
 
     set inputValue(value) {
         this.$input.value = value;
@@ -46,7 +46,7 @@ export default class View extends EventEmitter {
     addEvents() {
         this.$input.addEventListener("keypress", (e) => {
 
-            if (this.inputValueLength === 0 || !this.inputValue.trim()) {
+            if (this.isEmptyValue) {
                 return;
             }
 
@@ -57,7 +57,7 @@ export default class View extends EventEmitter {
         });
         this.$addBtn.addEventListener("click", (e) => {
 
-            if (this.inputValueLength === 0 || !this.inputValue.trim()) {
+            if (this.isEmptyValue) {
                 return;
             }
 
