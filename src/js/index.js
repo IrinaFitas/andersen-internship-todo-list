@@ -1,5 +1,9 @@
-import script from "./script.js";
+import Controller from "./Controller.js";
+import Model from "./Model.js";
+import View from "./View.js";
 import "./../css/style.css";
 
-script.showSomething();
-console.log(script.intersection([1,2,3], [4,3,2]));
+const model = new Model();
+const view = new View();
+const controller = new Controller(view, model);
+

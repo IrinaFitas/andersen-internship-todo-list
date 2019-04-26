@@ -22,6 +22,16 @@ let conf = {
 					fallback: "style-loader",
 					use: "css-loader"
 				})
+			},
+			{
+                test: /\.(woff|ttf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts',
+                    },
+                }],
 			}
 		]
 	},

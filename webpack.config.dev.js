@@ -27,6 +27,16 @@ let conf = {
 					"style-loader",
 					"css-loader"
 				]
+			},
+			{
+                test: /\.(woff|ttf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts',
+                    },
+                }],
 			}
 		]
 	},
