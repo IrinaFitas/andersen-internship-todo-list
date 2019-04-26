@@ -6,7 +6,7 @@ export default class Model {
     }
 
     get list() {
-        if (this.storage.list) {
+        if (this.storage.getItem("list")) {
             return JSON.parse(this.storage.list);
         } else {
             return this.listItems;

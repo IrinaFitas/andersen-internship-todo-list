@@ -56,3 +56,25 @@ li {
     word-break: break-all;
     border-radius: 3px;
 }
+
+.container-footer {
+    align-self: flex-start;
+    padding: 10px 15px;
+}
+
+.btn {
+    background-color: transparent;
+    border-radius: 5px;
+    border: none;
+    color: var(--second-grey);
+    padding: 5px;
+    font-size: var(--font-size);
+}
+
+.btn:hover {
+    border: 2px solid var(--second-grey);
+}
+.counter {
+    color: var(--second-grey);
+    font-size: var(--font-size);
+}
