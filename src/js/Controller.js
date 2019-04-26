@@ -15,6 +15,6 @@ export default class Controller {
     }
 
     renderList() {
-        this.view.emit("renderList", this.model.listItems);
+        this.view.emit("renderList", this.model.list); 
     }
 }

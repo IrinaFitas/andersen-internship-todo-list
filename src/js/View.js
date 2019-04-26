@@ -26,7 +26,7 @@ export default class View extends EventEmitter {
         this.on("renderList", (data) => {
             data.map( elem => {
                 const li = document.createElement("li");
-                li.textContent = data.text;
+                li.textContent = elem.text;
                 this.$list.appendChild(li);
             });
         });
