@@ -2,8 +2,7 @@ import Item from "./Item.js";
 export default class Model {
     constructor() {
         this.listItems = [];
-        this.storage = window.localStorage;
-    //    этза че,this.storage.clear(); 
+        this.storage = window.localStorage; 
     }
 
     get list() {
