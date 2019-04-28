@@ -61,6 +61,10 @@ li {
 li span {
     flex-basis: 90%;
 }
+li [contenteditable] {
+    border-bottom: 1px solid;
+    outline: none;
+}
 
 li button {
     width: 25px;
