@@ -23,6 +23,7 @@ export default class Model {
 
     deleteItem(id) {
         this.listItems.splice(id, 1);
+        window.localStorage.setItem("list", JSON.stringify(this.listItems));
     }
     editItem() {}
     filterItem() {}

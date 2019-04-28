@@ -22,20 +22,36 @@ export default class View extends EventEmitter {
         this.$input.value = value;
     }
 
+    createElements(txt) {
+        const li = document.createElement("li");
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "&#10006";
+        deleteButton.classList.add("delete-btn");
+        const doneButton = document.createElement("button");
+        doneButton.innerHTML = "&#10004;";
+        doneButton.classList.add("done-btn");
+        const editButton = document.createElement("button");
+        editButton.innerHTML = "&#9998;";
+        editButton.classList.add("edit-btn");
+        const span = document.createElement("span");
+        span.textContent = txt;
+        li.appendChild(span);
+        li.appendChild(editButton);
+        li.appendChild(doneButton);
+        li.appendChild(deleteButton);
+        this.$list.appendChild(li);
+    }
+
     render(data) {
         this.on("renderList", (data) => {
             data.map( elem => {
-                const li = document.createElement("li");
-                li.textContent = elem.text;
-                this.$list.appendChild(li);
+                this.createElements(elem.text);                
             });
         });
     }
     
     renderItem(text) {
-        const li = document.createElement("li");
-        li.textContent = text;
-        this.$list.appendChild(li); 
+        this.createElements(text);        
     }
 
     sendInput() {

@@ -50,6 +50,7 @@ body {
 }
 
 li {
+    display: flex;
     margin: 10px;
     padding: 10px var(--small-size);
     box-shadow: 0 0 2px 0 var(--border-color);
@@ -57,6 +58,32 @@ li {
     border-radius: 3px;
 }
 
+li span {
+    flex-basis: 90%;
+}
+
+li button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--second-grey);
+}
+
+li button:hover {
+    cursor: pointer;
+    transform: scale(2);
+    color: var(--border-color);
+}
+
+.edit-btn {
+    transform: rotate(90deg);
+}
+
+.edit-btn:hover {
+    transform: rotate(90deg) scale(2);
+}
 .container-footer {
     align-self: flex-start;
     padding: 10px 15px;
