@@ -1,7 +1,7 @@
 export default class Item {
-    constructor (text, isDone=false) {
+    constructor (text, id=null, isDone=false) {
         this.text = text;
-        this.id = Date.now();
+        this.id = id;
         this.isDone = isDone;
     }
 }

@@ -15,16 +15,26 @@ export default class Model {
         return listFromStorage ? JSON.parse(listFromStorage) : [];
     }
 
-    addItem(item) {
-        item = new Item(item);
+    addItem({text, id}) {
+        const item = new Item(text, id);
         this.listItems.push(item);
-        window.localStorage.setItem("list", JSON.stringify(this.listItems));
+        this.updateStorage();
     }
 
+    
     deleteItem(id) {
         this.listItems.splice(id, 1);
-        window.localStorage.setItem("list", JSON.stringify(this.listItems));
+        this.updateStorage();
     }
     editItem() {}
     filterItem() {}
- }
+    
+    doneItem(id) {
+        const ind = this.listItems.findIndex( elem => elem.id === +id);
+        this.listItems[ind].isDone = !this.listItems[ind].isDone;
+        this.updateStorage();
+    }
+    updateStorage() {
+        window.localStorage.setItem("list", JSON.stringify(this.listItems));
+    }
+}

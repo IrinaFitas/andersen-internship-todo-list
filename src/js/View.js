@@ -6,8 +6,8 @@ export default class View extends EventEmitter {
         this.$list = document.querySelector(".list");
         this.$input = document.querySelector(".input");
         this.$addBtn = document.querySelector(".add-btn");
-        this.addEvents();
         this.render();
+        this.addEvents();
     }
 
     get inputValue() {
@@ -22,8 +22,14 @@ export default class View extends EventEmitter {
         this.$input.value = value;
     }
 
-    createElements(txt) {
+    createElements({text, id, isDone}) {
         const li = document.createElement("li");
+        li.id = id;
+
+        if (isDone) {
+            li.classList.add("is-done");
+        }
+
         const deleteButton = document.createElement("button");
         deleteButton.innerHTML = "&#10006";
         deleteButton.classList.add("delete-btn");
@@ -34,7 +40,7 @@ export default class View extends EventEmitter {
         editButton.innerHTML = "&#9998;";
         editButton.classList.add("edit-btn");
         const span = document.createElement("span");
-        span.textContent = txt;
+        span.textContent = text;
         li.appendChild(span);
         li.appendChild(editButton);
         li.appendChild(doneButton);
@@ -45,17 +51,17 @@ export default class View extends EventEmitter {
     render(data) {
         this.on("renderList", (data) => {
             data.map( elem => {
-                this.createElements(elem.text);                
+                this.createElements(elem);                
             });
         });
     }
     
-    renderItem(text) {
-        this.createElements(text);        
+    renderItem(data) {
+        this.createElements(data);        
     }
 
-    sendInput() {
-        this.emit("itemWasAdded", this.inputValue);
+    sendInput(data) {
+        this.emit("itemWasAdded", data);
         this.inputValue = "";
     }
 
@@ -67,8 +73,13 @@ export default class View extends EventEmitter {
             }
 
             if (e.key === "Enter") {
-                this.renderItem(this.$input.value);
-                this.sendInput();
+                const data = {
+                    text: this.$input.value,
+                    id: Date.now()
+                };
+
+                this.renderItem(data);
+                this.sendInput(data);
             }
         });
         this.$addBtn.addEventListener("click", (e) => {
@@ -77,8 +88,21 @@ export default class View extends EventEmitter {
                 return;
             }
 
-            this.renderItem(this.$input.value);
-            this.sendInput();
+            const data = {
+                text: this.$input.value,
+                id: Date.now()
+            };
+
+            this.renderItem(data);
+            this.sendInput(data);
         });
+
+        this.$list.addEventListener("click", (e) => {
+            if (e.target.classList.contains("done-btn")) {
+                this.emit("itemIsDone", e.target.parentElement.id);
+                e.target.parentElement.classList.toggle("is-done");
+            }
+        });
+
     }
 }

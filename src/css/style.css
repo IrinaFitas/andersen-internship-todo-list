@@ -73,7 +73,7 @@ li button {
 
 li button:hover {
     cursor: pointer;
-    transform: scale(2);
+    transform: scale(1.5);
     color: var(--border-color);
 }
 
@@ -82,7 +82,7 @@ li button:hover {
 }
 
 .edit-btn:hover {
-    transform: rotate(90deg) scale(2);
+    transform: rotate(90deg) scale(1.5);
 }
 .container-footer {
     align-self: flex-start;
@@ -104,4 +104,8 @@ li button:hover {
 .counter {
     color: var(--second-grey);
     font-size: var(--font-size);
+}
+
+.is-done span {
+    text-decoration: line-through;
 }

@@ -7,4 +7,6 @@ const model = new Model();
 const view = new View();
 const controller = new Controller(view, model);
 
-console.log(model);
+// document.querySelectorAll(".done-btn").forEach( elem => elem.addEventListener("click", (e) => {
+//     console.log(e.target.parentElement);
+// }));
