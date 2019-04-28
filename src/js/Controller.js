@@ -5,6 +5,7 @@ export default class Controller {
         this.addItem();
         this.renderList();
         this.doneItem();
+        this.deleteItem();
     }
 
     addItem() {
@@ -22,6 +23,12 @@ export default class Controller {
     doneItem() {
         this.view.on("itemIsDone", (id) => {
             this.model.doneItem(id);
+        });
+    }
+
+    deleteItem() {
+        this.view.on("itemIsDelete", (id) => {
+            this.model.deleteItem(id);
         });
     }
 

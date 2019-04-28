@@ -2,7 +2,6 @@ import Item from "./Item.js";
 export default class Model {
     constructor() {
         this.listItems = Model.getListFromStorage(); 
-
     }
 
     get list() {
@@ -23,7 +22,8 @@ export default class Model {
 
     
     deleteItem(id) {
-        this.listItems.splice(id, 1);
+        const ind = this.listItems.findIndex( elem => elem.id === +id);
+        this.listItems.splice(ind, 1);
         this.updateStorage();
     }
     editItem() {}

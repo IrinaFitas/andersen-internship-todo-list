@@ -104,5 +104,12 @@ export default class View extends EventEmitter {
             }
         });
 
+        this.$list.addEventListener("click", (e) => {
+            if (e.target.classList.contains("delete-btn")) {
+                this.emit("itemIsDelete", e.target.parentElement.id);
+                e.target.parentElement.remove();
+            }
+        });
+
     }
 }
