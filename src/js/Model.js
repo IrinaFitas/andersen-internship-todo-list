@@ -1,24 +1,24 @@
 import Item from "./Item.js";
 export default class Model {
     constructor() {
-        this.listItems = [];
-        this.storage = window.localStorage; 
+        this.listItems = Model.getListFromStorage(); 
+
     }
 
     get list() {
-        if (this.storage.getItem("list")) {
-            return JSON.parse(this.storage.list);
-        } else {
-            return this.listItems;
-        }
+        const listFromStorage = window.localStorage.getItem("list");
+        return listFromStorage ? JSON.parse(listFromStorage) : this.listItems;
+    }
+
+    static getListFromStorage() {
+        const listFromStorage = window.localStorage.getItem("list");
+        return listFromStorage ? JSON.parse(listFromStorage) : [];
     }
 
     addItem(item) {
         item = new Item(item);
         this.listItems.push(item);
-        this.storage.setItem("list", JSON.stringify(this.listItems));
-        // console.log(this.storage.getItem("list"));
-        //console.log(this.list); 
+        window.localStorage.setItem("list", JSON.stringify(this.listItems));
     }
 
     deleteItem(id) {
