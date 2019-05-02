@@ -106,11 +106,17 @@ li button:hover {
     color: var(--second-grey);
     padding: 5px;
     font-size: var(--font-size);
+    outline: none;
 }
 
 .btn:hover {
     border: 2px solid var(--second-grey);
 }
+
+.btn-border {
+    border: 1px solid orange;
+}
+
 .counter {
     color: var(--second-grey);
     font-size: var(--font-size);
@@ -119,7 +125,3 @@ li button:hover {
 .is-done span {
     text-decoration: line-through;
 }
-
-/* .hidden {
-
-} */

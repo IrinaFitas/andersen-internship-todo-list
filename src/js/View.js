@@ -7,9 +7,15 @@ export default class View extends EventEmitter {
         this.$input = document.querySelector(".input");
         this.$addBtn = document.querySelector(".add-btn");
         this.$activeCounter = document.querySelector(".counter");
+        this.$btnShowAll = document.querySelector(".btn-show-all");
+        this.$btnShowActive = document.querySelector(".btn-show-active");
+        this.$btnShowCompleted = document.querySelector(".btn-show-completed");
         this.render();
         this.addEvents();
         this.showActiveCounter();
+        this.showAll();
+        this.showCompleted();
+        this.showActiveTasks();
     }
 
     get inputValue() {
@@ -62,6 +68,31 @@ export default class View extends EventEmitter {
         this.createElements(data);        
     }
 
+    showAll() {
+        this.$btnShowAll.addEventListener("click", (e) => {
+            e.target.classList.add("btn-border");
+            console.log("12");
+            this.render();
+        });
+    }
+
+    showActiveTasks(data) {
+        this.on("showActive", (data) => {
+            this.$btnShowActive.addEventListener("click", (e) => {
+                e.target.classList.add("btn-border");
+                // console.log("13");
+                console.log(data);
+            });
+        });
+    }
+
+    showCompleted() {
+        this.$btnShowCompleted.addEventListener("click", (e) => {
+            e.target.classList.add("btn-border");
+            console.log("14");
+        });
+    }
+
     sendInput(data) {
         this.emit("itemWasAdded", data);
         this.inputValue = "";
@@ -69,7 +100,7 @@ export default class View extends EventEmitter {
 
     showActiveCounter(data) {
         this.on("showActive", (data) => {
-            this.$activeCounter.textContent = `${data} left`;
+            this.$activeCounter.textContent = `${data.length} left`;
         });
     }
 

@@ -11,7 +11,7 @@ export default class Model {
 
     get activeCounter() {
         let active = this.list.filter( elem => elem.isDone === false);
-        return active.length;
+        return active;
     }
 
     static getListFromStorage() {

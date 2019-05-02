@@ -14,6 +14,7 @@ export default class Controller {
         this.view.on("itemWasAdded", (data) => {
             this.model.addItem(data);
             this.view.render(data);
+            this.showActive();
         });
     }
 
@@ -44,5 +45,6 @@ export default class Controller {
     showActive() {
         this.view.emit("showActive", this.model.activeCounter);
         this.view.showActiveCounter(this.model.activeCounter);
+        this.view.showActiveTasks(this.model.activeCounter);
     }
 }
