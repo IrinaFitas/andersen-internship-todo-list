@@ -7,6 +7,7 @@ export default class Controller {
         this.doneItem();
         this.deleteItem();
         this.editItem();
+        this.showActive();
     }
 
     addItem() {
@@ -23,12 +24,14 @@ export default class Controller {
     doneItem() {
         this.view.on("itemIsDone", (id) => {
             this.model.doneItem(id);
+            this.showActive();
         });
     }
 
     deleteItem() {
         this.view.on("itemIsDelete", (id) => {
             this.model.deleteItem(id);
+            this.showActive();
         });
     }
 
@@ -38,5 +41,8 @@ export default class Controller {
         });
     }
 
-
+    showActive() {
+        this.view.emit("showActive", this.model.activeCounter);
+        this.view.showActiveCounter(this.model.activeCounter);
+    }
 }

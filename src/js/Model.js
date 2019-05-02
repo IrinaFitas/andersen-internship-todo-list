@@ -1,12 +1,17 @@
 import Item from "./Item.js";
 export default class Model {
     constructor() {
-        this.listItems = Model.getListFromStorage(); 
+        this.listItems = Model.getListFromStorage();
     }
 
     get list() {
         const listFromStorage = window.localStorage.getItem("list");
         return listFromStorage ? JSON.parse(listFromStorage) : this.listItems;
+    }
+
+    get activeCounter() {
+        let active = this.list.filter( elem => elem.isDone === false);
+        return active.length;
     }
 
     static getListFromStorage() {
@@ -31,14 +36,13 @@ export default class Model {
         this.listItems[ind].text = text;
         this.updateStorage();
     }
-
-    filterItem() {}
     
     doneItem(id) {
         const ind = this.listItems.findIndex( elem => elem.id === +id);
         this.listItems[ind].isDone = !this.listItems[ind].isDone;
         this.updateStorage();
     }
+
     updateStorage() {
         window.localStorage.setItem("list", JSON.stringify(this.listItems));
     }

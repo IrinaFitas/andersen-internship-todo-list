@@ -6,8 +6,10 @@ export default class View extends EventEmitter {
         this.$list = document.querySelector(".list");
         this.$input = document.querySelector(".input");
         this.$addBtn = document.querySelector(".add-btn");
+        this.$activeCounter = document.querySelector(".counter");
         this.render();
         this.addEvents();
+        this.showActiveCounter();
     }
 
     get inputValue() {
@@ -63,6 +65,12 @@ export default class View extends EventEmitter {
     sendInput(data) {
         this.emit("itemWasAdded", data);
         this.inputValue = "";
+    }
+
+    showActiveCounter(data) {
+        this.on("showActive", (data) => {
+            this.$activeCounter.textContent = `${data} left`;
+        });
     }
 
     addEvents() {
@@ -144,6 +152,5 @@ export default class View extends EventEmitter {
                 });
             }
         });
-
     }
 }
