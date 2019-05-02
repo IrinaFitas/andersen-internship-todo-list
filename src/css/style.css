@@ -102,19 +102,22 @@ li button:hover {
 .btn {
     background-color: transparent;
     border-radius: 5px;
-    border: none;
+    border: 1px solid transparent;
     color: var(--second-grey);
     padding: 5px;
     font-size: var(--font-size);
     outline: none;
+    cursor: pointer;
+    transition: color 0.25s, border 0.25s;
 }
 
 .btn:hover {
-    border: 2px solid var(--second-grey);
+    border-color: var(--second-grey);
 }
 
-.btn-border {
-    border: 1px solid orange;
+.btn-active {
+    color: orange;
+    border-color: orange;
 }
 
 .counter {

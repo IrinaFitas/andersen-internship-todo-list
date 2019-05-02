@@ -30,6 +30,17 @@ export default class View extends EventEmitter {
         this.$input.value = value;
     }
 
+    setActiveButton(currentButton) {
+        document
+            .querySelector('.container-footer')
+            .querySelectorAll('button')
+            .forEach((button) => {
+                button.classList.remove('btn-active');
+            });
+
+        currentButton.classList.add('btn-active');
+    }
+
     createElements({text, id, isDone}) {
         const li = document.createElement("li");
         li.id = id;
@@ -203,6 +214,8 @@ export default class View extends EventEmitter {
             
             $list.classList.add("show-active");
             $list.classList.remove("show-completed");
+
+            this.setActiveButton(e.target);
         });
 
         this.$btnShowCompleted.addEventListener("click", (e) => {
@@ -211,6 +224,8 @@ export default class View extends EventEmitter {
             
             $list.classList.add("show-completed");
             $list.classList.remove("show-active");
+
+            this.setActiveButton(e.target);
         });
 
         this.$btnShowAll.addEventListener("click", (e) => {
@@ -219,6 +234,8 @@ export default class View extends EventEmitter {
 
             $list.classList.remove("show-completed");
             $list.classList.remove("show-active");
+
+            this.setActiveButton(e.target);
         });
-    }
+    }    
 }
