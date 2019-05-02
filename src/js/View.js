@@ -86,10 +86,12 @@ export default class View extends EventEmitter {
         });
     }
 
-    showCompleted() {
-        this.$btnShowCompleted.addEventListener("click", (e) => {
-            e.target.classList.add("btn-border");
-            console.log("14");
+    showCompleted(data) {
+        this.on("showCompleted", (data) => {
+            this.$btnShowCompleted.addEventListener("click", (e) => {
+                e.target.classList.add("btn-border");
+                console.log(data);
+            });
         });
     }
 

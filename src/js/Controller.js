@@ -8,6 +8,7 @@ export default class Controller {
         this.deleteItem();
         this.editItem();
         this.showActive();
+        this.showCompleted();
     }
 
     addItem() {
@@ -43,8 +44,13 @@ export default class Controller {
     }
 
     showActive() {
-        this.view.emit("showActive", this.model.activeCounter);
-        this.view.showActiveCounter(this.model.activeCounter);
-        this.view.showActiveTasks(this.model.activeCounter);
+        this.view.emit("showActive", this.model.active);
+        this.view.showActiveCounter(this.model.active);
+        this.view.showActiveTasks(this.model.active);
+    }
+
+    showCompleted() {
+        this.view.emit("showCompleted", this.model.completed);
+        this.view.showCompleted(this.model.completed);
     }
 }
