@@ -26,7 +26,12 @@ export default class Model {
         this.listItems.splice(ind, 1);
         this.updateStorage();
     }
-    editItem() {}
+    editItem(id, text) {
+        const ind = this.listItems.findIndex( elem => elem.id === +id);
+        this.listItems[ind].text = text;
+        this.updateStorage();
+    }
+
     filterItem() {}
     
     doneItem(id) {

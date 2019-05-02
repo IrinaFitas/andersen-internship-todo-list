@@ -6,13 +6,13 @@ export default class Controller {
         this.renderList();
         this.doneItem();
         this.deleteItem();
+        this.editItem();
     }
 
     addItem() {
         this.view.on("itemWasAdded", (data) => {
             this.model.addItem(data);
             this.view.render(data);
-            //console.log(this.model.listItems);
         });
     }
 
@@ -29,6 +29,12 @@ export default class Controller {
     deleteItem() {
         this.view.on("itemIsDelete", (id) => {
             this.model.deleteItem(id);
+        });
+    }
+
+    editItem() {
+        this.view.on("itemIsEdited", (data) => {
+            this.model.editItem(data.id, data.newValue);
         });
     }
 

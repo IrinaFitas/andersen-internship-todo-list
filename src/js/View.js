@@ -113,14 +113,35 @@ export default class View extends EventEmitter {
 
         this.$list.addEventListener("click", (e) => {
             if (e.target.classList.contains("edit-btn")) {
-                //this.emit("itemIsEdited", e.target.parentElement.id);
-                const input = document.createElement('input');
-                input.type = 'text';
+                
+                const input = document.createElement("input");
+                input.type = "text";
+                input.classList.add("edit-input");
                 input.value = e.target.parentElement.children[0].textContent;
                 e.target.parentElement.insertBefore(input, e.target);
+
                 e.target.parentElement.children[0].hidden = true;
-                //e.target.parentElement.children[0].contentEditable="true";
-                console.dir(e.target.parentElement.children[0]);
+                e.target.parentElement.querySelectorAll("button").forEach( elem => {
+                    elem.hidden = true;
+                });
+
+                input.addEventListener("keypress", (e) => {
+                     
+                    if (e.key === "Enter") {
+                        const data = {
+                            id: e.target.parentElement.id,
+                            newValue: e.target.value
+                        }
+
+                        this.emit("itemIsEdited", data); 
+                        e.target.parentElement.children[0].hidden = false;
+                        e.target.parentElement.children[0].textContent = data.newValue;
+                        e.target.parentElement.querySelectorAll("button").forEach( elem => {
+                            elem.hidden = false;
+                        }); 
+                        e.target.remove();
+                    }
+                });
             }
         });
 

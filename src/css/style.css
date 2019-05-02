@@ -85,9 +85,15 @@ li button:hover {
     transform: rotate(90deg);
 }
 
+
 .edit-btn:hover {
     transform: rotate(90deg) scale(1.5);
 }
+
+.edit-input {
+    width: 100%;
+}
+
 .container-footer {
     align-self: flex-start;
     padding: 10px 15px;
@@ -113,3 +119,7 @@ li button:hover {
 .is-done span {
     text-decoration: line-through;
 }
+
+/* .hidden {
+
+} */
