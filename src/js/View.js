@@ -12,10 +12,10 @@ export default class View extends EventEmitter {
         this.$btnShowCompleted = document.querySelector(".btn-show-completed");
         this.render();
         this.addEvents();
-        this.showActiveCounter();
-        this.showAll();
-        this.showCompleted();
-        this.showActiveTasks();
+        // this.showActiveCounter();
+        // this.showAll();
+        // this.showCompleted();
+        // this.showActiveTasks();
     }
 
     get inputValue() {
@@ -61,49 +61,58 @@ export default class View extends EventEmitter {
             data.map( elem => {
                 this.createElements(elem);                
             });
+
+            this.showActiveCounter();
         });
     }
     
     renderItem(data) {
-        this.createElements(data);        
+        this.createElements(data);
+        this.showActiveCounter();
     }
 
-    showAll() {
-        this.$btnShowAll.addEventListener("click", (e) => {
-            e.target.classList.add("btn-border");
-            console.log("12");
-            this.render();
-        });
-    }
+    // showAll() {
+    //     this.$btnShowAll.addEventListener("click", (e) => {
+    //         e.target.classList.add("btn-border");
+    //         console.log("12");
+    //         this.render();
+    //     });
+    // }
 
-    showActiveTasks(data) {
-        this.on("showActive", (data) => {
-            this.$btnShowActive.addEventListener("click", (e) => {
-                e.target.classList.add("btn-border");
-                // console.log("13");
-                console.log(data);
-            });
-        });
-    }
+    // showActiveTasks(data) {
+    //     this.on("showActive", (data) => {
+    //         this.$btnShowActive.addEventListener("click", (e) => {
+    //             e.target.classList.add("btn-border");
+    //         });
+    //     });
+    // }
 
-    showCompleted(data) {
-        this.on("showCompleted", (data) => {
-            this.$btnShowCompleted.addEventListener("click", (e) => {
-                e.target.classList.add("btn-border");
-                console.log(data);
-            });
-        });
-    }
+    // showCompleted(data) {
+    //     this.on("showCompleted", (data) => {
+    //         this.$btnShowCompleted.addEventListener("click", (e) => {
+    //             e.target.classList.add("btn-border");
+    //             console.log(data);
+    //         });
+    //     });
+    // }
 
     sendInput(data) {
         this.emit("itemWasAdded", data);
         this.inputValue = "";
     }
 
-    showActiveCounter(data) {
-        this.on("showActive", (data) => {
-            this.$activeCounter.textContent = `${data.length} left`;
-        });
+    // showActiveCounter(data) {
+    //     this.on("showActive", (data) => {
+    //         this.$activeCounter.textContent = `${data.length} left`;
+    //     });
+    // }
+
+    showActiveCounter() {
+        const count = document
+            .querySelectorAll('.list > li:not(.is-done)')
+            .length;
+
+        this.$activeCounter.textContent = `${count} left`;
     }
 
     addEvents() {
@@ -142,6 +151,7 @@ export default class View extends EventEmitter {
             if (e.target.classList.contains("done-btn")) {
                 this.emit("itemIsDone", e.target.parentElement.id);
                 e.target.parentElement.classList.toggle("is-done");
+                this.showActiveCounter();
             }
         });
 
@@ -149,6 +159,7 @@ export default class View extends EventEmitter {
             if (e.target.classList.contains("delete-btn")) {
                 this.emit("itemIsDelete", e.target.parentElement.id);
                 e.target.parentElement.remove();
+                this.showActiveCounter();
             }
         });
 
@@ -184,6 +195,30 @@ export default class View extends EventEmitter {
                     }
                 });
             }
+        });
+
+        this.$btnShowActive.addEventListener("click", (e) => {
+            const $list = e.target.closest('.container')
+                .querySelector('.list');
+            
+            $list.classList.add("show-active");
+            $list.classList.remove("show-completed");
+        });
+
+        this.$btnShowCompleted.addEventListener("click", (e) => {
+            const $list = e.target.closest('.container')
+                .querySelector('.list');
+            
+            $list.classList.add("show-completed");
+            $list.classList.remove("show-active");
+        });
+
+        this.$btnShowAll.addEventListener("click", (e) => {
+            const $list = e.target.closest('.container')
+                .querySelector('.list');
+
+            $list.classList.remove("show-completed");
+            $list.classList.remove("show-active");
         });
     }
 }

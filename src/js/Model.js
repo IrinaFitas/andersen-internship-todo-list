@@ -9,15 +9,15 @@ export default class Model {
         return listFromStorage ? JSON.parse(listFromStorage) : this.listItems;
     }
 
-    get active() {
-        let active = this.list.filter( elem => elem.isDone === false);
-        return active;
-    }
+    // get active() {
+    //     let active = this.list.filter( elem => elem.isDone === false);
+    //     return active;
+    // }
 
-    get completed() {
-        let completed = this.list.filter( elem => elem.isDone === true);
-        return completed;
-    }
+    // get completed() {
+    //     let completed = this.list.filter( elem => elem.isDone === true);
+    //     return completed;
+    // }
 
     static getListFromStorage() {
         const listFromStorage = window.localStorage.getItem("list");

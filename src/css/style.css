@@ -125,3 +125,9 @@ li button:hover {
 .is-done span {
     text-decoration: line-through;
 }
+.show-active > .is-done {
+    display: none;
+}
+.show-completed > li:not(.is-done) {
+    display: none;
+}
