@@ -85,13 +85,13 @@ export default class View extends EventEmitter {
         });
     }
     
-    renderItem(data) {
-        this.createElements(data);
+    renderItem({text, id, isDone}) {
+        this.createElements({text, id, isDone});
         this.showActiveCounter();
     }
 
-    sendInput(data) {
-        this.emit("itemWasAdded", data);
+    sendInput({text, id}) {
+        this.emit("itemWasAdded", {text, id});
         this.inputValue = "";
     }
 
@@ -101,6 +101,58 @@ export default class View extends EventEmitter {
             .length;
 
         this.$activeCounter.textContent = `${count} left`;
+    }
+
+    edit(e) {
+        if (!e.target.classList.contains("edit-btn")) {
+            return;
+        }   
+        let parent = e.target.parentElement;
+        let span = parent.children[0];
+        let buttons = parent.querySelectorAll("button");
+        let input = this.createInput("edit-input", span.textContent);
+
+        parent.insertBefore(input, e.target);
+        span.hidden = true;
+        buttons.forEach( elem => {
+            elem.hidden = true;
+        });
+
+        input.addEventListener("keypress", (e) => {
+                
+            if (e.key === "Enter") {
+                const data = {
+                    id: parent.id,
+                    newValue: e.target.value
+                }
+
+                this.emit("itemIsEdited", data); 
+                span.hidden = false;
+                span.textContent = data.newValue;
+                buttons.forEach( elem => {
+                    elem.hidden = false;
+                }); 
+                e.target.remove();
+            }
+        });
+    }
+
+    done(e) {
+        if (!e.target.classList.contains("done-btn")) {
+            return;
+        }
+        this.emit("itemIsDone", e.target.parentElement.id);
+        e.target.parentElement.classList.toggle("is-done");
+        this.showActiveCounter();
+    }
+
+    delete(e) {
+        if (!e.target.classList.contains("delete-btn")) {
+            return;
+        }
+        this.emit("itemIsDelete", e.target.parentElement.id);
+        e.target.parentElement.remove();
+        this.showActiveCounter();
     }
 
     addEvents() {
@@ -135,57 +187,14 @@ export default class View extends EventEmitter {
             this.sendInput(data);
         });
 
-        this.$list.addEventListener("click", (e) => {
-            if (!e.target.classList.contains("done-btn")) {
-                return;
-            }
-            this.emit("itemIsDone", e.target.parentElement.id);
-            e.target.parentElement.classList.toggle("is-done");
-            this.showActiveCounter();
-        });
-                        
-        this.$list.addEventListener("click", (e) => {
-            if (!e.target.classList.contains("delete-btn")) {
-                return;
-            }
-            this.emit("itemIsDelete", e.target.parentElement.id);
-            e.target.parentElement.remove();
-            this.showActiveCounter();
-        });
+        this.$list.addEventListener("click", this.done.bind(this));
+        this.$list.removeEventListener("click", this.done.bind(this));
 
-        this.$list.addEventListener("click", (e) => {
-            if (!e.target.classList.contains("edit-btn")) {
-                return;
-            }   
-            let parent = e.target.parentElement;
-            let span = parent.children[0];
-            let buttons = parent.querySelectorAll("button");
-            let input = this.createInput("edit-input", span.textContent);
+        this.$list.addEventListener("click", this.delete.bind(this));
+        this.$list.removeEventListener("click", this.delete.bind(this));
 
-            parent.insertBefore(input, e.target);
-            span.hidden = true;
-            buttons.forEach( elem => {
-                elem.hidden = true;
-            });
-
-            input.addEventListener("keypress", (e) => {
-                    
-                if (e.key === "Enter") {
-                    const data = {
-                        id: parent.id,
-                        newValue: e.target.value
-                    }
-
-                    this.emit("itemIsEdited", data); 
-                    span.hidden = false;
-                    span.textContent = data.newValue;
-                    buttons.forEach( elem => {
-                        elem.hidden = false;
-                    }); 
-                    e.target.remove();
-                }
-            });
-        });
+        this.$list.addEventListener("click", this.edit.bind(this));
+        this.$list.removeEventListener("click", this.edit.bind(this));
 
         this.$btnShowActive.addEventListener("click", (e) => {
             
