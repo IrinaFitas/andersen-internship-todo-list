@@ -54,6 +54,12 @@ export default class View extends EventEmitter {
         return input;
     }
 
+    hideElements(el, hide) {
+        el.forEach( item => {
+            item.hidden = hide;
+        });
+    }
+
     createElements({text, id, isDone}) {
         const li = document.createElement("li");
         li.id = id;
@@ -103,66 +109,62 @@ export default class View extends EventEmitter {
         this.$activeCounter.textContent = `${count} left`;
     }
 
-    edit(e) {
-        if (!e.target.classList.contains("edit-btn")) {
+    edit({ target }) {
+        if (!target.classList.contains("edit-btn")) {
             return;
         }   
-        let parent = e.target.parentElement;
-        let span = parent.children[0];
+        let parent = target.parentElement;
+        let [span] = parent.children;
         let buttons = parent.querySelectorAll("button");
         let input = this.createInput("edit-input", span.textContent);
 
-        parent.insertBefore(input, e.target);
+        parent.insertBefore(input, target);
         span.hidden = true;
-        buttons.forEach( elem => {
-            elem.hidden = true;
-        });
+        this.hideElements(buttons, true);
 
-        input.addEventListener("keypress", (e) => {
+        input.addEventListener("keypress", ({ key: inputKey, target: inputTarget }) => {
                 
-            if (e.key === "Enter") {
+            if (inputKey === "Enter") {
                 const data = {
                     id: parent.id,
-                    newValue: e.target.value
+                    newValue: inputTarget.value
                 }
 
                 this.emit("itemIsEdited", data); 
                 span.hidden = false;
                 span.textContent = data.newValue;
-                buttons.forEach( elem => {
-                    elem.hidden = false;
-                }); 
-                e.target.remove();
+                this.hideElements(buttons, false); 
+                inputTarget.remove();
             }
         });
     }
 
-    done(e) {
-        if (!e.target.classList.contains("done-btn")) {
+    done({ target }) {
+        if (!target.classList.contains("done-btn")) {
             return;
         }
-        this.emit("itemIsDone", e.target.parentElement.id);
-        e.target.parentElement.classList.toggle("is-done");
+        this.emit("itemIsDone", target.parentElement.id);
+        target.parentElement.classList.toggle("is-done");
         this.showActiveCounter();
     }
 
-    delete(e) {
-        if (!e.target.classList.contains("delete-btn")) {
+    delete({ target }) {
+        if (!target.classList.contains("delete-btn")) {
             return;
         }
-        this.emit("itemIsDelete", e.target.parentElement.id);
-        e.target.parentElement.remove();
+        this.emit("itemIsDelete", target.parentElement.id);
+        target.parentElement.remove();
         this.showActiveCounter();
     }
 
     addEvents() {
-        this.$input.addEventListener("keypress", (e) => {
+        this.$input.addEventListener("keypress", ({ key }) => {
 
             if (this.isEmptyValue) {
                 return;
             }
 
-            if (e.key === "Enter") {
+            if (key === "Enter") {
                 const data = {
                     text: this.$input.value,
                     id: Date.now()
@@ -172,7 +174,7 @@ export default class View extends EventEmitter {
                 this.sendInput(data);
             }
         });
-        this.$addBtn.addEventListener("click", (e) => {
+        this.$addBtn.addEventListener("click", () => {
 
             if (this.isEmptyValue) {
                 return;
@@ -196,25 +198,25 @@ export default class View extends EventEmitter {
         this.$list.addEventListener("click", this.edit.bind(this));
         this.$list.removeEventListener("click", this.edit.bind(this));
 
-        this.$btnShowActive.addEventListener("click", (e) => {
+        this.$btnShowActive.addEventListener("click", ({ target }) => {
             
             this.$list.classList.add("show-active");
             this.$list.classList.remove("show-completed");
-            this.setActiveButton(e.target);
+            this.setActiveButton(target);
         });
 
-        this.$btnShowCompleted.addEventListener("click", (e) => {
+        this.$btnShowCompleted.addEventListener("click", ({ target }) => {
             
             this.$list.classList.add("show-completed");
             this.$list.classList.remove("show-active");
-            this.setActiveButton(e.target);
+            this.setActiveButton(target);
         });
 
-        this.$btnShowAll.addEventListener("click", (e) => {
+        this.$btnShowAll.addEventListener("click", ({ target }) => {
            
             this.$list.classList.remove("show-completed");
             this.$list.classList.remove("show-active");
-            this.setActiveButton(e.target);
+            this.setActiveButton(target);
         });
     }    
 }
