@@ -136,53 +136,55 @@ export default class View extends EventEmitter {
         });
 
         this.$list.addEventListener("click", (e) => {
-            if (e.target.classList.contains("done-btn")) {
-                this.emit("itemIsDone", e.target.parentElement.id);
-                e.target.parentElement.classList.toggle("is-done");
-                this.showActiveCounter();
+            if (!e.target.classList.contains("done-btn")) {
+                return;
             }
+            this.emit("itemIsDone", e.target.parentElement.id);
+            e.target.parentElement.classList.toggle("is-done");
+            this.showActiveCounter();
         });
-                
+                        
         this.$list.addEventListener("click", (e) => {
-            if (e.target.classList.contains("delete-btn")) {
-                this.emit("itemIsDelete", e.target.parentElement.id);
-                e.target.parentElement.remove();
-                this.showActiveCounter();
+            if (!e.target.classList.contains("delete-btn")) {
+                return;
             }
+            this.emit("itemIsDelete", e.target.parentElement.id);
+            e.target.parentElement.remove();
+            this.showActiveCounter();
         });
 
         this.$list.addEventListener("click", (e) => {
-            if (e.target.classList.contains("edit-btn")) {
-                
-                let parent = e.target.parentElement;
-                let span = parent.children[0];
-                let buttons = parent.querySelectorAll("button");
-                let input = this.createInput("edit-input", span.textContent);
+            if (!e.target.classList.contains("edit-btn")) {
+                return;
+            }   
+            let parent = e.target.parentElement;
+            let span = parent.children[0];
+            let buttons = parent.querySelectorAll("button");
+            let input = this.createInput("edit-input", span.textContent);
 
-                parent.insertBefore(input, e.target);
-                span.hidden = true;
-                buttons.forEach( elem => {
-                    elem.hidden = true;
-                });
+            parent.insertBefore(input, e.target);
+            span.hidden = true;
+            buttons.forEach( elem => {
+                elem.hidden = true;
+            });
 
-                input.addEventListener("keypress", (e) => {
-                     
-                    if (e.key === "Enter") {
-                        const data = {
-                            id: parent.id,
-                            newValue: e.target.value
-                        }
-
-                        this.emit("itemIsEdited", data); 
-                        span.hidden = false;
-                        span.textContent = data.newValue;
-                        buttons.forEach( elem => {
-                            elem.hidden = false;
-                        }); 
-                        e.target.remove();
+            input.addEventListener("keypress", (e) => {
+                    
+                if (e.key === "Enter") {
+                    const data = {
+                        id: parent.id,
+                        newValue: e.target.value
                     }
-                });
-            }
+
+                    this.emit("itemIsEdited", data); 
+                    span.hidden = false;
+                    span.textContent = data.newValue;
+                    buttons.forEach( elem => {
+                        elem.hidden = false;
+                    }); 
+                    e.target.remove();
+                }
+            });
         });
 
         this.$btnShowActive.addEventListener("click", (e) => {
