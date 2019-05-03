@@ -12,12 +12,8 @@ export default class View extends EventEmitter {
         this.$btnShowCompleted = document.querySelector(".btn-show-completed");
         this.render();
         this.addEvents();
-        // this.showActiveCounter();
-        // this.showAll();
-        // this.showCompleted();
-        // this.showActiveTasks();
     }
-
+    
     get inputValue() {
         return this.$input.value;
     }
@@ -32,13 +28,30 @@ export default class View extends EventEmitter {
 
     setActiveButton(currentButton) {
         document
-            .querySelector('.container-footer')
-            .querySelectorAll('button')
+            .querySelector(".container-footer")
+            .querySelectorAll("button")
             .forEach((button) => {
-                button.classList.remove('btn-active');
+                button.classList.remove("btn-active");
             });
 
-        currentButton.classList.add('btn-active');
+        currentButton.classList.add("btn-active");
+    }
+
+    createBtn(text, classBtn) {
+        const btn = document.createElement("button");
+        btn.innerHTML = text;
+        btn.classList.add(classBtn);
+
+        return btn;
+    }
+
+    createInput(classInput, text) {
+        let input = document.createElement("input");
+        input.type = "text";
+        input.classList.add(classInput);
+        input.value = text;
+
+        return input;
     }
 
     createElements({text, id, isDone}) {
@@ -49,17 +62,12 @@ export default class View extends EventEmitter {
             li.classList.add("is-done");
         }
 
-        const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "&#10006";
-        deleteButton.classList.add("delete-btn");
-        const doneButton = document.createElement("button");
-        doneButton.innerHTML = "&#10004;";
-        doneButton.classList.add("done-btn");
-        const editButton = document.createElement("button");
-        editButton.innerHTML = "&#9998;";
-        editButton.classList.add("edit-btn");
+        const deleteButton = this.createBtn("&#10006", "delete-btn");
+        const doneButton = this.createBtn("&#10004;", "done-btn");
+        const editButton = this.createBtn("&#9998;", "edit-btn");
         const span = document.createElement("span");
         span.textContent = text;
+
         li.appendChild(span);
         li.appendChild(editButton);
         li.appendChild(doneButton);
@@ -82,45 +90,14 @@ export default class View extends EventEmitter {
         this.showActiveCounter();
     }
 
-    // showAll() {
-    //     this.$btnShowAll.addEventListener("click", (e) => {
-    //         e.target.classList.add("btn-border");
-    //         console.log("12");
-    //         this.render();
-    //     });
-    // }
-
-    // showActiveTasks(data) {
-    //     this.on("showActive", (data) => {
-    //         this.$btnShowActive.addEventListener("click", (e) => {
-    //             e.target.classList.add("btn-border");
-    //         });
-    //     });
-    // }
-
-    // showCompleted(data) {
-    //     this.on("showCompleted", (data) => {
-    //         this.$btnShowCompleted.addEventListener("click", (e) => {
-    //             e.target.classList.add("btn-border");
-    //             console.log(data);
-    //         });
-    //     });
-    // }
-
     sendInput(data) {
         this.emit("itemWasAdded", data);
         this.inputValue = "";
     }
 
-    // showActiveCounter(data) {
-    //     this.on("showActive", (data) => {
-    //         this.$activeCounter.textContent = `${data.length} left`;
-    //     });
-    // }
-
     showActiveCounter() {
         const count = document
-            .querySelectorAll('.list > li:not(.is-done)')
+            .querySelectorAll(".list > li:not(.is-done)")
             .length;
 
         this.$activeCounter.textContent = `${count} left`;
@@ -165,7 +142,7 @@ export default class View extends EventEmitter {
                 this.showActiveCounter();
             }
         });
-
+                
         this.$list.addEventListener("click", (e) => {
             if (e.target.classList.contains("delete-btn")) {
                 this.emit("itemIsDelete", e.target.parentElement.id);
@@ -177,14 +154,14 @@ export default class View extends EventEmitter {
         this.$list.addEventListener("click", (e) => {
             if (e.target.classList.contains("edit-btn")) {
                 
-                const input = document.createElement("input");
-                input.type = "text";
-                input.classList.add("edit-input");
-                input.value = e.target.parentElement.children[0].textContent;
-                e.target.parentElement.insertBefore(input, e.target);
+                let parent = e.target.parentElement;
+                let span = parent.children[0];
+                let buttons = parent.querySelectorAll("button");
+                let input = this.createInput("edit-input", span.textContent);
 
-                e.target.parentElement.children[0].hidden = true;
-                e.target.parentElement.querySelectorAll("button").forEach( elem => {
+                parent.insertBefore(input, e.target);
+                span.hidden = true;
+                buttons.forEach( elem => {
                     elem.hidden = true;
                 });
 
@@ -192,14 +169,14 @@ export default class View extends EventEmitter {
                      
                     if (e.key === "Enter") {
                         const data = {
-                            id: e.target.parentElement.id,
+                            id: parent.id,
                             newValue: e.target.value
                         }
 
                         this.emit("itemIsEdited", data); 
-                        e.target.parentElement.children[0].hidden = false;
-                        e.target.parentElement.children[0].textContent = data.newValue;
-                        e.target.parentElement.querySelectorAll("button").forEach( elem => {
+                        span.hidden = false;
+                        span.textContent = data.newValue;
+                        buttons.forEach( elem => {
                             elem.hidden = false;
                         }); 
                         e.target.remove();
@@ -209,32 +186,23 @@ export default class View extends EventEmitter {
         });
 
         this.$btnShowActive.addEventListener("click", (e) => {
-            const $list = e.target.closest('.container')
-                .querySelector('.list');
             
-            $list.classList.add("show-active");
-            $list.classList.remove("show-completed");
-
+            this.$list.classList.add("show-active");
+            this.$list.classList.remove("show-completed");
             this.setActiveButton(e.target);
         });
 
         this.$btnShowCompleted.addEventListener("click", (e) => {
-            const $list = e.target.closest('.container')
-                .querySelector('.list');
             
-            $list.classList.add("show-completed");
-            $list.classList.remove("show-active");
-
+            this.$list.classList.add("show-completed");
+            this.$list.classList.remove("show-active");
             this.setActiveButton(e.target);
         });
 
         this.$btnShowAll.addEventListener("click", (e) => {
-            const $list = e.target.closest('.container')
-                .querySelector('.list');
-
-            $list.classList.remove("show-completed");
-            $list.classList.remove("show-active");
-
+           
+            this.$list.classList.remove("show-completed");
+            this.$list.classList.remove("show-active");
             this.setActiveButton(e.target);
         });
     }    
