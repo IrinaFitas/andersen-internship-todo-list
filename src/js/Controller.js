@@ -33,8 +33,8 @@ export default class Controller {
     }
 
     editItem() {
-        this.view.on("itemIsEdited", (data) => {
-            this.model.editItem(data.id, data.newValue);
+        this.view.on("itemIsEdited", ({id, newValue}) => {
+            this.model.editItem(id, newValue);
         });
     }
 }
