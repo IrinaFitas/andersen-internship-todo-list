@@ -50,9 +50,87 @@ body {
 }
 
 li {
+    display: flex;
     margin: 10px;
     padding: 10px var(--small-size);
     box-shadow: 0 0 2px 0 var(--border-color);
     word-break: break-all;
     border-radius: 3px;
+}
+
+li span {
+    flex-basis: 90%;
+}
+li [contenteditable] {
+    border-bottom: 1px solid;
+    outline: none;
+}
+
+li button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--second-grey);
+}
+
+li button:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+    color: var(--border-color);
+}
+
+.edit-btn {
+    transform: rotate(90deg);
+}
+
+
+.edit-btn:hover {
+    transform: rotate(90deg) scale(1.5);
+}
+
+.edit-input {
+    width: 100%;
+}
+
+.container-footer {
+    align-self: flex-start;
+    padding: 10px 15px;
+}
+
+.btn {
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    color: var(--second-grey);
+    padding: 5px;
+    font-size: var(--font-size);
+    outline: none;
+    cursor: pointer;
+    transition: color 0.25s, border 0.25s;
+}
+
+.btn:hover {
+    border-color: var(--second-grey);
+}
+
+.btn-active {
+    color: orange;
+    border-color: orange;
+}
+
+.counter {
+    color: var(--second-grey);
+    font-size: var(--font-size);
+}
+
+.is-done span {
+    text-decoration: line-through;
+}
+.show-active > .is-done {
+    display: none;
+}
+.show-completed > li:not(.is-done) {
+    display: none;
 }
