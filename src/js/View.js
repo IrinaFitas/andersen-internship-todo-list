@@ -124,18 +124,19 @@ export default class View extends EventEmitter {
 
         input.addEventListener("keypress", ({ key: inputKey, target: inputTarget }) => {
                 
-            if (inputKey === "Enter") {
-                const data = {
-                    id: parent.id,
-                    newValue: inputTarget.value
-                }
-
-                this.emit("itemIsEdited", data); 
-                span.hidden = false;
-                span.textContent = data.newValue;
-                this.hideElements(buttons, false); 
-                inputTarget.remove();
+            if (inputKey !== "Enter") {
+                return;
             }
+            const data = {
+                id: parent.id,
+                newValue: inputTarget.value
+            }
+
+            this.emit("itemIsEdited", data); 
+            span.hidden = false;
+            span.textContent = data.newValue;
+            this.hideElements(buttons, false); 
+            inputTarget.remove();
         });
     }
 
