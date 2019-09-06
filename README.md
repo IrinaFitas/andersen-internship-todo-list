@@ -1,1 +1,1 @@
-# andersen-internship-todo-list
+# internship-todo-list
